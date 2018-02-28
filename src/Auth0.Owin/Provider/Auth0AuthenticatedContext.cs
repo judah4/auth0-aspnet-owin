@@ -35,6 +35,16 @@ namespace Auth0.Owin
             FirstName = TryGetValue(user, "given_name");
             LastName = TryGetValue(user, "family_name");
             Email = TryGetValue(user, "email");
+            //attempt to parse email attempt
+            bool emailAttempt;
+            if (bool.TryParse(TryGetValue(user, "email_verified"), out emailAttempt))
+            {
+                EmailVerified = emailAttempt;
+            }
+            else
+            {
+                EmailVerified = null;
+            }
             Picture = TryGetValue(user, "picture");
             Nickname = TryGetValue(user, "nickname");
 
@@ -76,6 +86,8 @@ namespace Auth0.Owin
         public string IdToken { get; private set; }
 
         public string RefreshToken { get; private set; }
+
+        public bool? EmailVerified { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="ClaimsIdentity"/> representing the user
